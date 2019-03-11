@@ -43,15 +43,11 @@ export default class App extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { query } = this.state;
-        if (prevState.query === null && query !== null) {
-            // update search
-        }
+    async componentDidMount() {
+        const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     }
 
     deleteRecordingFile = async () => {
-        console.log("Deleting file");
         try {
             const info = await FileSystem.getInfoAsync(this.recording.getURI());
             await FileSystem.deleteAsync(info.uri)
@@ -88,7 +84,7 @@ export default class App extends React.Component {
     }
 
     startRecording = async () => {
-        const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+        const { status } = await Permissions.getAsync(Permissions.AUDIO_RECORDING);
         if (status !== 'granted') return;
 
         this.setState({ isRecording: true });
