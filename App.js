@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import FadeInView from './components/FadeInView';
 import { Audio, Permissions, FileSystem } from 'expo';
@@ -37,6 +37,7 @@ export default class App extends React.Component {
         super(props);
         this.recording = null;
         this.state = {
+            isFetching: false,
             isRecording: false,
             query: '',
         }
@@ -49,7 +50,18 @@ export default class App extends React.Component {
         }
     }
 
+    deleteRecordingFile = async () => {
+        console.log("Deleting file");
+        try {
+            const info = await FileSystem.getInfoAsync(this.recording.getURI());
+            await FileSystem.deleteAsync(info.uri)
+        } catch(error) {
+            console.log("There was an error deleting recording file", error);
+        }
+    }
+
     getTranscription = async () => {
+        this.setState({ isFetching: true });
         try {
             const info = await FileSystem.getInfoAsync(this.recording.getURI());
             console.log(`FILE INFO: ${JSON.stringify(info)}`);
@@ -72,6 +84,7 @@ export default class App extends React.Component {
             this.stopRecording();
             this.resetRecording();
         }
+        this.setState({ isFetching: false });
     }
 
     startRecording = async () => {
@@ -128,17 +141,17 @@ export default class App extends React.Component {
     }
 
     render() {
-        const { isRecording, query } = this.state;
+        const { isRecording, query, isFetching } = this.state;
         return (
             <SafeAreaView style={{flex: 1}}>
                 <View style={styles.container}>
                     {isRecording &&
                         <FadeInView>
-                            <FontAwesome name="microphone" size={32} color="pink" />
+                            <FontAwesome name="microphone" size={32} color="#48C9B0" />
                         </FadeInView>
                     }
                     {!isRecording &&
-                        <FontAwesome name="microphone" size={32} color="pink" />
+                        <FontAwesome name="microphone" size={32} color="#48C9B0" />
                     }
                     <Text>Voice Search</Text>
                     <TouchableOpacity
@@ -146,7 +159,8 @@ export default class App extends React.Component {
                         onPressIn={this.handleOnPressIn}
                         onPressOut={this.handleOnPressOut}
                     >
-                        <Text>Hold for Voice Search</Text>
+                        {isFetching && <ActivityIndicator color="#ffffff" />}
+                        {!isFetching && <Text>Hold for Voice Search</Text>}
                     </TouchableOpacity>
                 </View>
                 <View style={{paddingHorizontal: 20}}>
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: 'pink',
+        backgroundColor: '#48C9B0',
         paddingVertical: 20,
         width: '90%',
         alignItems: 'center',
