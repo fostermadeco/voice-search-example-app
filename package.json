@@ -11,7 +11,7 @@
     "expo-file-system": "~9.0.1",
     "expo-permissions": "~9.0.1",
     "react": "16.11.0",
-    "react-instantsearch-native": "^5.4.0",
+    "react-instantsearch-native": "^6.7.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz"
   },
   "devDependencies": {

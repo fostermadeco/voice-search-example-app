@@ -6,10 +6,16 @@ import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import { InstantSearch } from 'react-instantsearch-native';
+import algoliasearch from 'algoliasearch/lite';
 
 import config from './config';
 import SearchBox from './components/SearchBox';
 import Hits from './components/Hits';
+
+const searchClient = algoliasearch(
+    config.ALGOLIA_APP_ID,
+    config.ALGOLIA_API_KEY,
+);
 
 const recordingOptions = {
     // android not currently in use. Not getting results from speech to text with .m4a
@@ -138,6 +144,8 @@ export default class App extends React.Component {
         this.setState({ query });
     }
 
+
+
     render() {
         const { isRecording, query, isFetching } = this.state;
         return (
@@ -163,9 +171,9 @@ export default class App extends React.Component {
                 </View>
                 <View style={{paddingHorizontal: 20}}>
                     <InstantSearch
-                        appId={config.ALGOLIA_APP_ID}
-                        apiKey={config.ALGOLIA_API_KEY}
+
                         indexName={config.ALGOLIA_INDEX}
+                        searchClient={searchClient}
                     >
                         <SearchBox query={query} onChange={this.handlQueryChange} />
                         <Hits />
