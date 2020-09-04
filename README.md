@@ -9,6 +9,7 @@ Rename the `config.json.example` file to `config.json` and replace the cloud fun
 ```
 yarn
 yarn start
+yarn ios
 ```
 
 Because this app uses the Audio API, test it using the Expo app and not the iOS simulator.
