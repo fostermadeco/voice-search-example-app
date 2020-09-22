@@ -1,12 +1,12 @@
 # Voice Search Example App
 
-React Native app built with Expo that uses a Google Cloud Function and Google Speech API to populate Aloglia Instant Search
+React Native app built with Expo that uses a Google Cloud Function and Google Speech API to populate Aloglia Instant Search. Only works on iOS.
 
 Note: run this on a recent node version > v14.0.5.
 
 ## Getting Started
 
-Rename the `config.json.example` file to `config.json` and replace the cloud function property value. The Aloglia config variables are all set to a test Alogolia index that returns results for a fake e-commerce site.
+Rename the `config.json.example` file to `config.json` and replace the cloud function property value. The Aloglia config variables are all set to a test Algolia index that returns results for a fake e-commerce site.
 
 ```
 yarn
