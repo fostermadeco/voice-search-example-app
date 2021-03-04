@@ -1,5 +1,7 @@
 # Voice Search Example App
 
+**NOTE: this only works in iOS not Android**
+
 React Native app built with Expo that uses a Google Cloud Function and Google Speech API to populate Aloglia Instant Search. Only works on iOS.
 
 Note: run this on a recent node version > v14.0.5.
